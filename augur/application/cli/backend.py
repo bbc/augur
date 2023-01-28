@@ -71,7 +71,7 @@ def start(disable_collection, development, port):
         
     db_session.invalidate()
 
-    gunicorn_command = f"gunicorn -c {gunicorn_location} -b {host}:{port} --preload augur.api.server:app"
+    gunicorn_command = f"gunicorn -c {gunicorn_location} -b {host}:{port} augur.api.server:app"
     server = subprocess.Popen(gunicorn_command.split(" "))
 
     time.sleep(3)

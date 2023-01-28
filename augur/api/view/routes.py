@@ -22,8 +22,8 @@ def create_routes(server):
         This route returns a redirect to the application root, appended
         by the provided path, if any.
     """
-    @server.app.route('/root/')
-    @server.app.route('/root/<path:path>')
+    @app.route('/root/')
+    @app.route('/root/<path:path>')
     def root(path=""):
         return redirect(getSetting("approot") + path)
 
@@ -33,8 +33,8 @@ def create_routes(server):
         with the provided brand, otherwise the inverted Augur logo if no
         brand is provided.
     """
-    @server.app.route('/logo/')
-    @server.app.route('/logo/<string:brand>')
+    @app.route('/logo/')
+    @app.route('/logo/<string:brand>')
     def logo(brand=None):
         if brand is None:
             return redirect(url_for('static', filename='img/augur_logo.png'))
@@ -50,8 +50,8 @@ def create_routes(server):
         This route returns the default view of the application, which
         is currently defined as the repository table view
     """
-    @server.app.route('/')
-    @server.app.route('/repos/views/table')
+    @app.route('/')
+    @app.route('/repos/views/table')
     def repo_table_view():
         query = request.args.get('q')
         try:
@@ -93,7 +93,7 @@ def create_routes(server):
     card:
         This route returns the repository card view
     """
-    @server.app.route('/repos/views/card')
+    @app.route('/repos/views/card')
     def repo_card_view():
         query = request.args.get('q')
         if current_user.is_authenticated:
@@ -110,8 +110,8 @@ def create_routes(server):
         This route returns the groups table view, listing all the current
         groups in the backend
     """
-    # @server.app.route('/groups')
-    # @server.app.route('/groups/<group>')
+    # @app.route('/groups')
+    # @app.route('/groups/<group>')
     # def repo_groups_view(group=None):
     #     query = request.args.get('q')
     #     page = request.args.get('p')
@@ -135,7 +135,7 @@ def create_routes(server):
         This route returns the status view, which displays information
         about the current status of collection in the backend
     """
-    @server.app.route('/status')
+    @app.route('/status')
     def status_view():
         return render_module("status", title="Status")
 
@@ -143,7 +143,7 @@ def create_routes(server):
     login:
         Under development
     """
-    @server.app.route('/account/login', methods=['GET', 'POST'])
+    @app.route('/account/login', methods=['GET', 'POST'])
     def user_login():
         if request.method == 'POST':
             try:
@@ -195,7 +195,7 @@ def create_routes(server):
     logout:
         Under development
     """
-    @server.app.route('/account/logout')
+    @app.route('/account/logout')
     @login_required
     def user_logout():
         logout_user()
@@ -207,7 +207,7 @@ def create_routes(server):
     table:
         This route performs external authorization for a user
     """
-    @server.app.route('/user/authorize')
+    @app.route('/user/authorize')
     @login_required
     def authorize_user():
         client_id = request.args.get("client_id")
@@ -224,7 +224,7 @@ def create_routes(server):
         
         return render_module("authorization", app = client, state = state)
 
-    @server.app.route('/account/delete')
+    @app.route('/account/delete')
     @login_required
     def user_delete():
         if current_user.delete()[0]:
@@ -239,7 +239,7 @@ def create_routes(server):
     settings:
         Under development
     """
-    @server.app.route('/account/settings')
+    @app.route('/account/settings')
     @login_required
     def user_settings():
         return render_template("settings.j2")
@@ -248,7 +248,7 @@ def create_routes(server):
     report page:
         This route returns a report view of the requested repo (by ID).
     """
-    @server.app.route('/repos/views/repo/<id>')
+    @app.route('/repos/views/repo/<id>')
     def repo_repo_view(id):
         # For some reason, there is no reports definition (shouldn't be possible)
         if reports is None:
@@ -266,7 +266,7 @@ def create_routes(server):
         This route returns the default view of the application, which
         is currently defined as the repository table view
     """
-    @server.app.route('/user/group/')
+    @app.route('/user/group/')
     @login_required
     def user_group_view():
         group = request.args.get("group")
@@ -315,7 +315,7 @@ def create_routes(server):
     Admin dashboard:
         View the admin dashboard.
     """
-    @server.app.route('/dashboard')
+    @app.route('/dashboard')
     def dashboard_view():
         empty = [
             { "title": "Placeholder", "settings": [

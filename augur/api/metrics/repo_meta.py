@@ -10,9 +10,7 @@ import math
 import logging
 
 from augur.api.util import register_metric
-
-from augur.application.db.engine import DatabaseEngine
-engine = DatabaseEngine(connection_pool_size=1).engine
+from ..server import engine
 
 logger = logging.getLogger("augur")
 

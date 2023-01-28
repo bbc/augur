@@ -6,14 +6,14 @@ from augur.application.db.session import DatabaseSession
 from .utils import *
 
 def create_routes(server):
-    @server.app.route('/cache/file/')
-    @server.app.route('/cache/file/<path:file>')
+    @app.route('/cache/file/')
+    @app.route('/cache/file/<path:file>')
     def cache(file=None):
         if file is None:
             return redirect(url_for('root', path=getSetting('caching')))
         return redirect(url_for('root', path=toCacheFilepath(file)))
 
-    @server.app.route('/account/repos/add', methods = ['POST'])
+    @app.route('/account/repos/add', methods = ['POST'])
     @login_required
     def av_add_user_repo():
         url = request.form.get("url")
@@ -35,7 +35,7 @@ def create_routes(server):
         
         return redirect(url_for("user_settings") + "?section=tracker")
 
-    @server.app.route('/account/update', methods = ['POST'])
+    @app.route('/account/update', methods = ['POST'])
     @login_required
     def user_update_password():
         old_password = request.form.get("password")
@@ -48,7 +48,7 @@ def create_routes(server):
         
         return redirect(url_for("user_settings"))
     
-    @server.app.route('/account/group/add', methods = ['POST'])
+    @app.route('/account/group/add', methods = ['POST'])
     @login_required
     def user_add_group():
         group = request.form.get("group_name")
@@ -62,7 +62,7 @@ def create_routes(server):
         
         return redirect(url_for("user_settings") + "?section=tracker")
 
-    @server.app.route('/account/group/remove')
+    @app.route('/account/group/remove')
     @login_required
     def user_remove_group():
         group = request.args.get("group_name")
@@ -76,7 +76,7 @@ def create_routes(server):
         
         return redirect(url_for("user_settings") + "?section=tracker")
 
-    @server.app.route('/account/repo/remove')
+    @app.route('/account/repo/remove')
     @login_required
     def user_remove_repo():
         group = request.args.get("group_name")
@@ -99,7 +99,7 @@ def create_routes(server):
         
         return redirect(url_for("user_group_view") + f"?group={group}")
     
-    @server.app.route('/account/application/deauthorize')
+    @app.route('/account/application/deauthorize')
     @login_required
     def user_app_deauthorize():
         token = request.args.get("token")
@@ -113,7 +113,7 @@ def create_routes(server):
         
         return redirect(url_for("user_settings") + "?section=application")
     
-    @server.app.route('/account/application/create', methods = ['POST'])
+    @app.route('/account/application/create', methods = ['POST'])
     @login_required
     def user_app_create():
         name = request.form.get("app_name")
@@ -135,7 +135,7 @@ def create_routes(server):
         report request completes. A json response is guaranteed.
         Assumes that the requested repo exists.
     """
-    @server.app.route('/requests/report/wait/<id>')
+    @app.route('/requests/report/wait/<id>')
     def wait_for_report_request(id):
         requestReports(id)
         return jsonify(report_requests[id])
