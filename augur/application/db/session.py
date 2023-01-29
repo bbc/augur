@@ -60,6 +60,8 @@ class DatabaseSession(Session):
         if self.engine is None:
             from augur.application.db.engine import DatabaseEngine
 
+            logger.info(f"CREATE ENGINE: creating engine")
+
             self.engine_created = True
 
             self.engine = DatabaseEngine().engine
