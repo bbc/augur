@@ -146,7 +146,7 @@ def init_worker(**kwargs):
     from augur.application.db.engine import DatabaseEngine
 
     engine = DatabaseEngine().engine
-    logger.info(f"Engine created for worker: {}")
+    logger.info(f"Engine created for worker: {engine}")
 
 
 @worker_process_shutdown.connect
